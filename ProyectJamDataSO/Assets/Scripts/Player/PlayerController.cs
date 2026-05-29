@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [Header("Input")]
     [SerializeField] private PlayerInputConfig _inputConfig;
 
+    public Vector2 MoveInput => _moveInput;
+
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
 
