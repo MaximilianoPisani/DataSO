@@ -7,6 +7,6 @@ public class GridScroller : MonoBehaviour
 
     private void Update()
     {
-        transform.position += Vector3.down * _scrollSpeed * Time.deltaTime;
+        transform.position += Vector3.up * _scrollSpeed * Time.deltaTime;
     }
 }
