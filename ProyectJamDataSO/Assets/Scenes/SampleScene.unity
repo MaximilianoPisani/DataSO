@@ -1236,7 +1236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 957517511690170840, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1405869563564742419, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1294,9 +1294,29 @@ PrefabInstance:
       propertyPath: _animationSmoothing
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 6518905414909985102, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
+      propertyPath: _dashSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518905414909985102, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
+      propertyPath: _dashCooldown
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518905414909985102, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
+      propertyPath: _dashDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518905414909985102, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
+      propertyPath: _dashAnimDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7574002704072646804, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
       propertyPath: _moveSpeed
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574002704072646804, guid: 3a84a2e648fab774bb953001fb9e497f, type: 3}
+      propertyPath: _inputConfig.Dash
+      value: 257
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10859,9 +10879,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 677470315789336179, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1395567818298875442, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _dashSpeed
-      value: 35
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1395567818298875442, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _dashCooldown
@@ -10869,7 +10893,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1395567818298875442, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _dashDuration
-      value: 0.2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395567818298875442, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
+      propertyPath: _dashAnimDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193240450988337458, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _animationSmoothing
@@ -10881,7 +10909,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5401622309360529738, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _moveSpeed
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5401622309360529738, guid: 7c5624deff6ef3142a685728b18336bf, type: 3}
       propertyPath: _inputConfig.Dash
