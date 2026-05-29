@@ -9,17 +9,24 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float _dashDuration = 0.18f;
     [SerializeField] private float _dashCooldown = 0.5f;
 
+    [Header("Animation")]
+    [SerializeField] private float _dashAnimDuration = 0.6f;
+
     private Rigidbody2D _rb;
     private PlayerController _playerController;
 
     private bool _isDashing;
+    private bool _isAnimatingDash;
 
     private float _dashTimer;
+    private float _dashAnimTimer;
     private float _cooldownTimer;
 
     private Vector2 _dashDirection;
 
-    public bool IsDashing => _isDashing;
+    public bool IsDashing => _isAnimatingDash;
+    public bool IsDashingPhysics => _isDashing;
+    public float DashDuration => _dashDuration;
 
     private void Awake()
     {
@@ -30,33 +37,24 @@ public class PlayerDash : MonoBehaviour
     private void Update()
     {
         HandleCooldown();
+        HandleAnimTimer();
 
         if (Input.GetKeyDown(_playerController.InputConfig.Dash))
-        {
             TryDash();
-        }
     }
 
     private void FixedUpdate()
     {
         if (_isDashing)
-        {
             UpdateDash();
-        }
     }
 
     private void TryDash()
     {
-        if (_isDashing)
-            return;
-
-        if (_cooldownTimer > 0f)
-            return;
+        if (_isDashing || _cooldownTimer > 0f) return;
 
         Vector2 input = _playerController.MoveInput;
-
-        if (input.sqrMagnitude <= 0.01f)
-            return;
+        if (input.sqrMagnitude <= 0.01f) return;
 
         StartDash(input.normalized);
     }
@@ -64,36 +62,38 @@ public class PlayerDash : MonoBehaviour
     private void StartDash(Vector2 direction)
     {
         _isDashing = true;
+        _isAnimatingDash = true;
 
         _dashDirection = direction;
-
         _dashTimer = _dashDuration;
-
+        _dashAnimTimer = _dashAnimDuration;
         _cooldownTimer = _dashCooldown;
     }
 
     private void UpdateDash()
     {
         _dashTimer -= Time.fixedDeltaTime;
-
         _rb.linearVelocity = _dashDirection * _dashSpeed;
 
         if (_dashTimer <= 0f)
         {
-            StopDash();
+            _isDashing = false;
+            _rb.linearVelocity = Vector2.zero;
         }
     }
 
-    private void StopDash()
+    private void HandleAnimTimer()
     {
-        _isDashing = false;
+        if (!_isAnimatingDash) return;
+
+        _dashAnimTimer -= Time.deltaTime;
+        if (_dashAnimTimer <= 0f)
+            _isAnimatingDash = false;
     }
 
     private void HandleCooldown()
     {
         if (_cooldownTimer > 0f)
-        {
             _cooldownTimer -= Time.deltaTime;
-        }
     }
 }

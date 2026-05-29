@@ -52,14 +52,11 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (_playerDash != null && _playerDash.IsDashing)
+        if (_playerDash != null && _playerDash.IsDashingPhysics)
             return;
-
         Vector2 velocity = _rb.linearVelocity;
-
         velocity.x = _moveInput.x * _moveSpeed;
         velocity.y = _moveInput.y * _moveSpeed;
-
         _rb.linearVelocity = velocity;
     }
 }

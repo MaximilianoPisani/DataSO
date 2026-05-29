@@ -4,54 +4,81 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerAnimationController : MonoBehaviour
 {
-    // Animator parameter names
     private static readonly int MoveX = Animator.StringToHash("moveX");
     private static readonly int MoveY = Animator.StringToHash("moveY");
     private static readonly int Speed = Animator.StringToHash("Speed");
-    //private static readonly int IsJumping = Animator.StringToHash("IsJumping");
-    //private static readonly int JumpX = Animator.StringToHash("jumpX");
-    //private static readonly int JumpY = Animator.StringToHash("jumpY");
+    private static readonly int ParamIsDashing = Animator.StringToHash("IsJumping");
+    private static readonly int ParamDashIndex = Animator.StringToHash("DashIndex");
 
-    [Header("Smoothing")]
-    [Tooltip("How fast the blend-tree values follow the actual input (lower = smoother).")]
-    [SerializeField] private float _animationSmoothing = 10f;
+    private const int DASH_DOWN = 0;
+    private const int DASH_UP = 1;
+    private const int DASH_LEFT = 2;
+    private const int DASH_RIGHT = 3;
 
-    // Cached references 
     private Animator _animator;
     private PlayerController _playerController;
+    private PlayerDash _dashController;
 
-    // Internal state 
-    private Vector2 _smoothedDir = Vector2.down;     // default face-down
-    private Vector2 _lastMovDir = Vector2.down;     // last non-zero direction
+    private Vector2 _lastMovDir = Vector2.down;
+    private int _currentDashIndex = -1;
+    private bool _wasDashing = false;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _playerController = GetComponent<PlayerController>();
+        _dashController = GetComponent<PlayerDash>();
     }
 
     private void Update()
     {
         UpdateMovementAnimation();
+        UpdateDashAnimation();
     }
 
-    // Movement (Idle / Walk blend trees)
     private void UpdateMovementAnimation()
     {
         Vector2 input = _playerController.MoveInput;
         float speed = input.magnitude;
 
-        // Keep last valid direction so Idle blend tree faces the right way
         if (input.sqrMagnitude > 0.01f)
             _lastMovDir = input.normalized;
 
-        // Smooth the blend-tree direction
-        Vector2 targetDir = speed > 0.01f ? input.normalized : _lastMovDir;
-        _smoothedDir = Vector2.Lerp(_smoothedDir, targetDir,
-                                    Time.deltaTime * _animationSmoothing);
-
-        _animator.SetFloat(MoveX, _smoothedDir.x);
-        _animator.SetFloat(MoveY, _smoothedDir.y);
+        _animator.SetFloat(MoveX, _lastMovDir.x);
+        _animator.SetFloat(MoveY, _lastMovDir.y);
         _animator.SetFloat(Speed, speed);
+    }
+
+    private void UpdateDashAnimation()
+    {
+        if (_dashController == null) return;
+
+        bool dashing = _dashController.IsDashing;
+
+        if (dashing && !_wasDashing)
+        {
+            int index = DashIndex(_lastMovDir);
+
+            if (index != _currentDashIndex)
+            {
+                _currentDashIndex = index;
+                _animator.SetInteger(ParamDashIndex, index);
+            }
+
+            _animator.SetBool(ParamIsDashing, true);
+        }
+
+        if (!dashing && _wasDashing)
+            _animator.SetBool(ParamIsDashing, false);
+
+        _wasDashing = dashing;
+    }
+
+    private static int DashIndex(Vector2 dir)
+    {
+        if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y))
+            return dir.x >= 0 ? DASH_RIGHT : DASH_LEFT;
+        else
+            return dir.y >= 0 ? DASH_UP : DASH_DOWN;
     }
 }
