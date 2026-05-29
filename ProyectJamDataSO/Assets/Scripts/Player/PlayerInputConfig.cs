@@ -7,4 +7,6 @@ public class PlayerInputConfig
     public KeyCode Down;
     public KeyCode Left;
     public KeyCode Right;
+
+    public KeyCode Dash;
 }

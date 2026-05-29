@@ -10,13 +10,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInputConfig _inputConfig;
 
     public Vector2 MoveInput => _moveInput;
+    public PlayerInputConfig InputConfig => _inputConfig;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+    private PlayerDash _playerDash;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _playerDash = GetComponent<PlayerDash>();
     }
 
     private void Update()
@@ -44,13 +47,19 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(_inputConfig.Up))
             vertical = 1f;
 
-        _moveInput = new Vector2(horizontal, vertical);
-
-        _moveInput = _moveInput.normalized;
+        _moveInput = new Vector2(horizontal, vertical).normalized;
     }
 
     private void Move()
     {
-        _rb.linearVelocity = _moveInput * _moveSpeed;
+        if (_playerDash != null && _playerDash.IsDashing)
+            return;
+
+        Vector2 velocity = _rb.linearVelocity;
+
+        velocity.x = _moveInput.x * _moveSpeed;
+        velocity.y = _moveInput.y * _moveSpeed;
+
+        _rb.linearVelocity = velocity;
     }
 }
