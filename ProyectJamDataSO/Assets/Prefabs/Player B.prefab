@@ -136,13 +136,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce628514ca686c459c5b63ca497168a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _moveSpeed: 8
+  _moveSpeed: 7
   _inputConfig:
     Up: 273
     Down: 274
     Left: 276
     Right: 275
-    Dash: 257
+    Dash: 112
 --- !u!95 &9210900056962632990
 Animator:
   serializedVersion: 7
@@ -192,7 +192,7 @@ MonoBehaviour:
   _dashSpeed: 12
   _dashDuration: 1
   _dashCooldown: 0.8
-  _dashAnimWindow: 1
+  _dashAnimDuration: 1
 --- !u!1 &7848828369198952427
 GameObject:
   m_ObjectHideFlags: 0
