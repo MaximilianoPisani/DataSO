@@ -167,13 +167,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce628514ca686c459c5b63ca497168a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _moveSpeed: 5
+  _moveSpeed: 8
   _inputConfig:
     Up: 119
     Down: 115
     Left: 97
     Right: 100
-    Dash: 113
+    Dash: 256
 --- !u!95 &2937536454313678430
 Animator:
   serializedVersion: 7
@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60a731d3b55aaf4098c125c4abfcc52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
-  _animationSmoothing: 10
 --- !u!114 &1395567818298875442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41e16483a349e0498c12ea0b07ab6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  _dashSpeed: 16
-  _dashDuration: 0.18
-  _dashCooldown: 0.5
+  _dashSpeed: 12
+  _dashDuration: 1
+  _dashCooldown: 0.8
+  _dashAnimWindow: 1

@@ -1,3 +1,4 @@
+// PlayerDash.cs
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,23 +11,26 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float _dashCooldown = 0.5f;
 
     [Header("Animation")]
-    [SerializeField] private float _dashAnimDuration = 0.6f;
+    // FIX #3: Renombrado para claridad — es la ventana de tiempo
+    // en que IsDashing=true para la animación, no la duración del clip
+    [SerializeField] private float _dashAnimWindow = 0.6f;
 
     private Rigidbody2D _rb;
     private PlayerController _playerController;
 
     private bool _isDashing;
     private bool _isAnimatingDash;
-
     private float _dashTimer;
     private float _dashAnimTimer;
     private float _cooldownTimer;
-
     private Vector2 _dashDirection;
 
     public bool IsDashing => _isAnimatingDash;
     public bool IsDashingPhysics => _isDashing;
     public float DashDuration => _dashDuration;
+
+    // FIX #2: Exponemos la dirección real del dash
+    public Vector2 DashDirection => _dashDirection;
 
     private void Awake()
     {
@@ -63,10 +67,9 @@ public class PlayerDash : MonoBehaviour
     {
         _isDashing = true;
         _isAnimatingDash = true;
-
         _dashDirection = direction;
         _dashTimer = _dashDuration;
-        _dashAnimTimer = _dashAnimDuration;
+        _dashAnimTimer = _dashAnimWindow;
         _cooldownTimer = _dashCooldown;
     }
 
@@ -85,7 +88,6 @@ public class PlayerDash : MonoBehaviour
     private void HandleAnimTimer()
     {
         if (!_isAnimatingDash) return;
-
         _dashAnimTimer -= Time.deltaTime;
         if (_dashAnimTimer <= 0f)
             _isAnimatingDash = false;

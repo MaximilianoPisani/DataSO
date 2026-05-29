@@ -1,3 +1,4 @@
+// PlayerAnimationController.cs
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -41,7 +42,10 @@ public class PlayerAnimationController : MonoBehaviour
         Vector2 input = _playerController.MoveInput;
         float speed = input.magnitude;
 
-        if (input.sqrMagnitude > 0.01f)
+        // FIX #1: No actualizamos _lastMovDir si estamos dasheando,
+        // para que la dirección quede "congelada" al valor pre-dash
+        bool dashing = _dashController != null && _dashController.IsDashing;
+        if (!dashing && input.sqrMagnitude > 0.01f)
             _lastMovDir = input.normalized;
 
         _animator.SetFloat(MoveX, _lastMovDir.x);
@@ -57,7 +61,9 @@ public class PlayerAnimationController : MonoBehaviour
 
         if (dashing && !_wasDashing)
         {
-            int index = DashIndex(_lastMovDir);
+            // FIX #2: Usamos DashDirection (la dirección real y committeada del dash)
+            // en lugar de _lastMovDir que puede estar desactualizada
+            int index = DashIndex(_dashController.DashDirection);
 
             if (index != _currentDashIndex)
             {
@@ -69,7 +75,10 @@ public class PlayerAnimationController : MonoBehaviour
         }
 
         if (!dashing && _wasDashing)
+        {
             _animator.SetBool(ParamIsDashing, false);
+            _currentDashIndex = -1; // reset para el próximo dash
+        }
 
         _wasDashing = dashing;
     }
