@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - DeathZoneBlack
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - GroundWhite
   - GroundBlack
   - Player
-  - 
+  - DeathZoneBlack
   - 
   - 
   - 
